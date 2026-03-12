@@ -1,6 +1,6 @@
 # taskmanagement
 
-Configuration du projet :
+### Configuration du projet :
 
 - Workflow: Feature Branch + Merge Requests
 - Interdiction de push sur main (PR obligatoire)
