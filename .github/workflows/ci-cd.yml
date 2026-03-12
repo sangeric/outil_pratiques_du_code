@@ -1,0 +1,82 @@
+name: CI/CD Pipeline
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v4 
+ 
+      - name: Setup Node.js 
+        uses: actions/setup-node@v4 
+        with: 
+          node-version: '20' 
+          cache: 'npm' 
+ 
+      - name: Install dependencies (backend)
+        working-directory: ./backend/
+        run: npm install
+      
+      - name: Run ESLint (backend)
+        working-directory: ./backend/
+        run: npx eslint
+
+      - name: Install dependencies (frontend)
+        working-directory: ./frontend/
+        run: npm install
+      
+      - name: Run ESLint (frontend)
+        working-directory: ./frontend/
+        run: npx eslint
+
+  # test-selenium:
+  #   needs: lint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.9'
+
+  #     - name: Install Chrome
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y google-chrome-stable
+
+  #     - name: Install dependencies
+  #       run: |
+  #         cd tests/selenium
+  #         pip install -r requirements.txt
+
+      # - name: Run Selenium Tests
+      #   env:
+      #     CI: true
+      #   run: |
+      #     cd tests/selenium
+      #     python -m pytest test_selenium.py -v --html=../test-report.html --self-contained-html
+
+      # - name: Upload test results
+      #   uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: test-results
+      #     path: test-report.html
+
+  # deploy:
+  #   needs: test-selenium
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Deploy to GitHub Pages
+  #       uses: peaceiris/actions-gh-pages@v3
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         publish_dir: ./src
