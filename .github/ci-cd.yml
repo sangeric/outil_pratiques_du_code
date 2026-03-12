@@ -21,27 +21,27 @@ jobs:
       - name: Run ESLint 
         run: npm run lint
 
-  test-selenium:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # test-selenium:
+  #   needs: lint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.9'
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+  #     - name: Install Chrome
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y google-chrome-stable
 
-      - name: Install dependencies
-        run: |
-          cd tests/selenium
-          pip install -r requirements.txt
+  #     - name: Install dependencies
+  #       run: |
+  #         cd tests/selenium
+  #         pip install -r requirements.txt
 
       # - name: Run Selenium Tests
       #   env:
