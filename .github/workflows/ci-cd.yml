@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  lint: 
+  lint:
     runs-on: ubuntu-latest 
     steps: 
       - name: Checkout code 
@@ -15,11 +15,21 @@ jobs:
           node-version: '20' 
           cache: 'npm' 
  
-      - name: Install dependencies 
-        run: npm ci 
- 
-      - name: Run ESLint 
-        run: npm run lint
+      - name: Install dependencies (backend)
+        working-directory: ./backend/
+        run: npm install
+      
+      - name: Run ESLint (backend)
+        working-directory: ./backend/
+        run: npx eslint
+
+      - name: Install dependencies (frontend)
+        working-directory: ./frontend/
+        run: npm install
+      
+      - name: Run ESLint (frontend)
+        working-directory: ./frontend/
+        run: npx eslint
 
   # test-selenium:
   #   needs: lint
