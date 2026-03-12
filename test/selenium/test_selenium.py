@@ -1,3 +1,5 @@
+# run test : python -m pytest test_selenium.py -v --html=report.html --self-contained-html
+
 import pytest
 import time
 from selenium import webdriver
@@ -135,8 +137,6 @@ class TestSelenium:
         assert any("Tâche modifiée" in task.text for task in tasks)
 
     def test_delete_task(self, driver):
-        print("Test de suppression de tâche - à implémenter")
-        # À implémenter : trouver une tâche existante, cliquer sur "Supprimer" et vérifier que la tâche n'est plus dans la liste
         wait = WebDriverWait(driver, 10)
         tasks_list = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "task-form")))
         if not tasks_list:
@@ -147,6 +147,11 @@ class TestSelenium:
         task_to_delete.find_element(By.XPATH, ".//button[contains(text(), 'Supprimer')]").click()
         time.sleep(2)
 
+        # Confirmation de la suppression (si une confirmation est nécessaire)
+        wait.until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        alert.accept()    
+
         # Vérifier que la tâche a été supprimée
         tasks = driver.find_elements(By.CLASS_NAME, "task-form")
         assert not any(task_to_delete.text in task.text for task in tasks) # Vérifier si elle est dans la liste ou non
@@ -154,4 +159,16 @@ class TestSelenium:
     def test_logout(self, driver):
         print("Test de déconnexion - à implémenter")
         # À implémenter : cliquer sur le bouton de déconnexion et vérifier que l'utilisateur est redirigé vers la page de connexion
-    
+        self.test_login_page(driver)  # Assurer que nous sommes connectés
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "dashboard")))
+        driver.find_element(By.XPATH, "//button[contains(text(), 'Déconnexion')]").click()
+        time.sleep(2)
+
+        if not driver.current_url.endswith("/login"):
+            assert False, "L'utilisateur n'a pas été redirigé vers la page de connexion"
+        else:
+            assert True
+
+if __name__ == "__main__":
+    pytest.main(["-v", "--html=report.html", "--self-contained-html"])
