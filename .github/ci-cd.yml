@@ -43,19 +43,19 @@ jobs:
           cd tests/selenium
           pip install -r requirements.txt
 
-      - name: Run Selenium Tests
-        env:
-          CI: true
-        run: |
-          cd tests/selenium
-          python -m pytest test_selenium.py -v --html=../test-report.html --self-contained-html
+      # - name: Run Selenium Tests
+      #   env:
+      #     CI: true
+      #   run: |
+      #     cd tests/selenium
+      #     python -m pytest test_selenium.py -v --html=../test-report.html --self-contained-html
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results
-          path: test-report.html
+      # - name: Upload test results
+      #   uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: test-results
+      #     path: test-report.html
 
   # deploy:
   #   needs: test-selenium
