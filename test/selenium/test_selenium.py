@@ -137,6 +137,19 @@ class TestSelenium:
     def test_delete_task(self, driver):
         print("Test de suppression de tâche - à implémenter")
         # À implémenter : trouver une tâche existante, cliquer sur "Supprimer" et vérifier que la tâche n'est plus dans la liste
+        wait = WebDriverWait(driver, 10)
+        tasks_list = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "task-form")))
+        if not tasks_list:
+            self.test_add_task(driver)  # Ajouter une tâche
+            time.sleep(2)
+            tasks_list = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "task-form")))
+        task_to_delete = tasks_list[0] # Supprimer la première tâche de la liste
+        task_to_delete.find_element(By.XPATH, ".//button[contains(text(), 'Supprimer')]").click()
+        time.sleep(2)
+
+        # Vérifier que la tâche a été supprimée
+        tasks = driver.find_elements(By.CLASS_NAME, "task-form")
+        assert not any(task_to_delete.text in task.text for task in tasks) # Vérifier si elle est dans la liste ou non
         
     def test_logout(self, driver):
         print("Test de déconnexion - à implémenter")
