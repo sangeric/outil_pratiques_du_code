@@ -7,3 +7,7 @@
 - Tests automatiques sur chaque PR
     - Analyse de code automatique (Lint)
     - Vérification de la couverture de code (Selenium)
+
+### Infos :
+
+Les tests lint et selenium ne passent pas donc les PR ne passent pas.
