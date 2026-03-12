@@ -1,0 +1,17 @@
+TODO list V1 : 
+
+création de requirement.txt
+création de test_selenium.py
+
+voir le code pour savoir quels sont les fonctionnalité à tester sur le front et le back_end
+
+P1 des test sur le front (les éléments existent et s'affiche)
+P2 des test sur le back (les éléments fonctionnent)
+
+Implémentation des tests suivants : 
+    - Login
+    - Add Task
+    - Mod Task
+    - Delete Task
+    - Disconection
+    - Registration
